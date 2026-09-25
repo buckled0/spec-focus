@@ -1,0 +1,304 @@
+/* Colours come from GitHub's own design tokens, so focus mode follows whatever
+   theme GitHub is showing. The fallbacks are GitHub's dark defaults. */
+
+html.sf-open {
+  overflow: hidden !important;
+}
+
+#spec-focus-root {
+  --sf-font-size: 20px;
+  --sf-bg: var(--bgColor-default, #0d1117);
+  --sf-fg: var(--fgColor-default, #e6edf3);
+  --sf-muted: var(--fgColor-muted, #9198a1);
+  --sf-border: var(--borderColor-muted, #3d444db3);
+  --sf-accent: var(--fgColor-accent, #4493f8);
+
+  position: fixed;
+  inset: 0;
+  z-index: 2147483646;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  background: var(--sf-bg);
+  color: var(--sf-fg);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+}
+
+#spec-focus-root .sf-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 18px 28px;
+  color: var(--sf-muted);
+  font-size: 13px;
+}
+
+#spec-focus-root .sf-crumb {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#spec-focus-root .sf-bar-end {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: none;
+  font-variant-numeric: tabular-nums;
+}
+
+#spec-focus-root .sf-hint {
+  padding: 2px 8px;
+  border: 1px solid var(--sf-border);
+  border-radius: 6px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+#spec-focus-root .sf-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  min-height: 0;
+  padding: 0 24px;
+  overflow: hidden;
+}
+
+#spec-focus-root .sf-chunk {
+  width: min(calc(var(--sf-font-size) * 38), 100%);
+  font-size: var(--sf-font-size);
+  line-height: 1.65;
+  background: transparent;
+  color: var(--sf-fg);
+}
+
+#spec-focus-root .sf-current {
+  flex: 0 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  outline: none;
+  scrollbar-width: thin;
+}
+
+/* Rich diff changes: a coloured rule beside the chunk and a label in the bar. */
+#spec-focus-root .sf-current[data-change='added'],
+#spec-focus-root .sf-current[data-change='removed'],
+#spec-focus-root .sf-current[data-change='changed'] {
+  margin-left: -20px;
+  padding-left: 17px;
+  border-left: 3px solid var(--sf-change);
+}
+
+#spec-focus-root [data-change='added'] {
+  --sf-change: var(--fgColor-success, #3fb950);
+}
+
+#spec-focus-root [data-change='removed'] {
+  --sf-change: var(--fgColor-danger, #f85149);
+}
+
+#spec-focus-root [data-change='changed'] {
+  --sf-change: var(--fgColor-attention, #d29922);
+}
+
+#spec-focus-root .sf-current[data-change='removed'] {
+  text-decoration: line-through;
+  text-decoration-color: var(--sf-change);
+}
+
+#spec-focus-root .sf-change {
+  color: var(--sf-change);
+  font-weight: 600;
+}
+
+#spec-focus-root .sf-chunk ins {
+  background: var(--bgColor-success-muted, rgb(46 160 67 / 0.15));
+  text-decoration: none;
+}
+
+#spec-focus-root .sf-chunk del {
+  background: var(--bgColor-danger-muted, rgb(248 81 73 / 0.1));
+  text-decoration: line-through;
+}
+
+/* Neighbouring chunks: fixed-height slots so the current chunk never jumps,
+   faded out towards the edges of the screen. */
+#spec-focus-root .sf-prev,
+#spec-focus-root .sf-next {
+  flex: none;
+  height: 14vh;
+  overflow: hidden;
+  opacity: 0.22;
+  cursor: pointer;
+  user-select: none;
+  transition: opacity 0.15s;
+}
+
+#spec-focus-root .sf-prev:hover,
+#spec-focus-root .sf-next:hover {
+  opacity: 0.45;
+}
+
+#spec-focus-root .sf-prev {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  mask-image: linear-gradient(to top, #000 20%, transparent);
+}
+
+#spec-focus-root .sf-next {
+  mask-image: linear-gradient(to bottom, #000 20%, transparent);
+}
+
+#spec-focus-root.sf-no-context .sf-prev,
+#spec-focus-root.sf-no-context .sf-next {
+  display: none;
+}
+
+#spec-focus-root .sf-chunk > :first-child {
+  margin-top: 0 !important;
+}
+
+#spec-focus-root .sf-chunk > :last-child {
+  margin-bottom: 0 !important;
+}
+
+#spec-focus-root .sf-progress {
+  height: 3px;
+  background: var(--sf-border);
+}
+
+#spec-focus-root .sf-progress-fill {
+  height: 100%;
+  background: var(--sf-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.2s ease-out;
+}
+
+#spec-focus-root .sf-enter-down {
+  animation: sf-enter-down 0.18s ease-out;
+}
+
+#spec-focus-root .sf-enter-up {
+  animation: sf-enter-up 0.18s ease-out;
+}
+
+@keyframes sf-enter-down {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+@keyframes sf-enter-up {
+  from {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+}
+
+#spec-focus-root .sf-help {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 24px 28px;
+  border: 1px solid var(--sf-border);
+  border-radius: 12px;
+  background: var(--bgColor-muted, #151b23);
+  /* The second shadow dims the reading view behind the panel. */
+  box-shadow:
+    0 16px 48px rgb(0 0 0 / 0.35),
+    0 0 0 100vmax rgb(0 0 0 / 0.45);
+  font-size: 14px;
+}
+
+#spec-focus-root .sf-help[hidden] {
+  display: none;
+}
+
+#spec-focus-root .sf-help h2 {
+  margin: 0 0 14px;
+  font-size: 16px;
+}
+
+#spec-focus-root .sf-help dl {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 8px 24px;
+  margin: 0;
+}
+
+#spec-focus-root .sf-help dt {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: var(--sf-accent);
+  white-space: pre;
+}
+
+#spec-focus-root .sf-help dd {
+  margin: 0;
+}
+
+.sf-toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  z-index: 2147483647;
+  max-width: min(560px, calc(100vw - 48px));
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: var(--bgColor-emphasis, #3d444d);
+  color: var(--fgColor-onEmphasis, #fff);
+  font:
+    14px/1.4 -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Helvetica,
+    Arial,
+    sans-serif;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 8px);
+  transition:
+    opacity 0.2s,
+    transform 0.2s;
+}
+
+.sf-toast.sf-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* Where the reader left off, highlighted on the page after leaving. */
+.sf-flash {
+  border-radius: 6px;
+  animation: sf-flash 2.4s ease-out;
+}
+
+@keyframes sf-flash {
+  0%,
+  40% {
+    background-color: var(--bgColor-attention-muted, rgb(187 128 9 / 0.15));
+    box-shadow: 0 0 0 8px var(--bgColor-attention-muted, rgb(187 128 9 / 0.15));
+  }
+  100% {
+    background-color: transparent;
+    box-shadow: 0 0 0 8px transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #spec-focus-root *,
+  .sf-toast,
+  .sf-flash {
+    animation: none !important;
+    transition: none !important;
+  }
+}

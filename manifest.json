@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "Spec Focus",
+  "version": "0.1.0",
+  "description": "Read agent specs on GitHub one paragraph at a time, with everything else out of the way.",
+  "permissions": ["storage", "scripting"],
+  "host_permissions": ["https://github.com/*"],
+  "background": { "service_worker": "src/background.js" },
+  "action": {
+    "default_title": "Focus on this spec",
+    "default_icon": { "16": "icons/16.png", "32": "icons/32.png", "48": "icons/48.png", "128": "icons/128.png" }
+  },
+  "icons": { "16": "icons/16.png", "32": "icons/32.png", "48": "icons/48.png", "128": "icons/128.png" },
+  "commands": {
+    "toggle-focus": {
+      "suggested_key": { "default": "Alt+Shift+F" },
+      "description": "Enter or leave focus mode"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://github.com/*"],
+      "js": ["src/chunker.js", "src/content.js"],
+      "css": ["src/overlay.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}
