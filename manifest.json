@@ -4,8 +4,9 @@
   "version": "0.1.0",
   "description": "Read agent specs on GitHub one paragraph at a time, with everything else out of the way.",
   "permissions": ["storage", "scripting"],
-  "host_permissions": ["https://github.com/*"],
+  "host_permissions": ["https://github.com/*", "https://api.github.com/*"],
   "background": { "service_worker": "src/background.js" },
+  "options_ui": { "page": "src/options.html", "open_in_tab": true },
   "action": {
     "default_title": "Focus on this spec",
     "default_icon": { "16": "icons/16.png", "32": "icons/32.png", "48": "icons/48.png", "128": "icons/128.png" }
@@ -20,7 +21,7 @@
   "content_scripts": [
     {
       "matches": ["https://github.com/*"],
-      "js": ["src/chunker.js", "src/content.js"],
+      "js": ["src/chunker.js", "src/lines.js", "src/github.js", "src/content.js"],
       "css": ["src/overlay.css"],
       "run_at": "document_idle"
     }

@@ -6,8 +6,12 @@ block or table at a time, with the chunks either side faded out for context.
 
 - **Works on** any rendered markdown on github.com: files, READMEs, PR and
   issue descriptions, comments. On a PR's _Files changed_ tab it flips the
-  `.md` file in view to GitHub's rich diff for you, labels each chunk
-  **Added**, **Removed** or **Changed**, and `n` / `N` jump between changes.
+  `.md` file in view to GitHub's rich diff for you and shows only the chunks
+  that changed, each labelled **Added**, **Removed** or **Changed**. `d`
+  switches to the whole spec and back.
+- **Takes line comments**: on a PR, `m` opens a comment box for the chunk
+  you're reading, already pointed at the right lines of the file. See
+  [Commenting](#commenting).
 - **Quiets the window**: puts the browser window into macOS full screen while
   you read and puts it back when you leave. Press `f` to turn that off.
 - **Keeps your place**: reopening a spec resumes where you stopped. Leaving
@@ -31,6 +35,8 @@ can't do that part.
 | `j` `↓` `Space`  | Next chunk (scrolls long ones first)    |
 | `k` `↑` `⇧Space` | Previous chunk                          |
 | `n` `N`          | Next / previous change (PR rich diffs)  |
+| `d`              | Only the changes, or the whole spec     |
+| `m`              | Comment on this chunk or the selection  |
 | `g` `G`          | First / last chunk                      |
 | `c`              | Show or hide the surrounding chunks     |
 | `+` `-`          | Text size                               |
@@ -38,7 +44,29 @@ can't do that part.
 | `Esc` `q`        | Leave and jump to this spot on the page |
 | `?`              | Show the keys                           |
 
-Text size, context and full screen settings are remembered.
+Text size, context, full screen and changes-only settings are remembered.
+
+## Commenting
+
+On a PR's _Files changed_ tab, press `m` to comment on the chunk you're
+reading. Select some text in it first to comment on just the lines that text
+sits on. The box shows which lines of the file the comment will land on, so
+you can check before posting:
+
+- `⌘↵` **Add review comment** adds it to your pending review, like _Start a
+  review_ on GitHub. Finish the review on GitHub to post it.
+- `⇧⌘↵` **Add single comment** posts it straight away.
+- `Esc` closes the box and keeps what you wrote for when you come back.
+
+GitHub's rich diff has no line numbers, so Spec Focus lines the chunk's words
+up against the PR's patch (`src/lines.js`). Comments on removed text go on
+the old version's lines. GitHub only takes line comments on lines in the diff,
+so a chunk outside it becomes a file comment that quotes it.
+
+Commenting needs a GitHub token: open the extension's **Options**, then paste
+a fine-grained token with **Pull requests: Read and write** (or a classic
+token with `repo`). It's stored in the extension and only sent to
+api.github.com.
 
 ## How chunks are made
 
@@ -53,7 +81,7 @@ No build step; the extension runs straight from `src/`.
 
 ```sh
 npm install
-npm test               # chunker tests (node:test + jsdom)
+npm test               # chunker and line-mapping tests (node:test + jsdom)
 npm run screenshots    # loads the extension in Chromium against a real spec
 npm run icons          # re-renders icons/*.png from icons/icon.svg
 ```

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Spec Focus options</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        font:
+          15px/1.5 -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          Helvetica,
+          Arial,
+          sans-serif;
+      }
+      body {
+        max-width: 560px;
+        margin: 48px auto;
+        padding: 0 24px;
+      }
+      h1 {
+        font-size: 22px;
+      }
+      h2 {
+        margin-top: 32px;
+        font-size: 16px;
+      }
+      input {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 6px 10px;
+        border: 1px solid GrayText;
+        border-radius: 6px;
+        font:
+          14px ui-monospace,
+          SFMono-Regular,
+          Menlo,
+          monospace;
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 12px;
+      }
+      button {
+        padding: 5px 14px;
+        border-radius: 6px;
+        font: inherit;
+      }
+      #status {
+        color: GrayText;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Spec Focus</h1>
+    <h2>Commenting on PRs</h2>
+    <p>
+      To leave line comments from focus mode, give Spec Focus a GitHub token. Make a
+      <a href="https://github.com/settings/personal-access-tokens/new" target="_blank">fine-grained token</a>
+      with <strong>Pull requests: Read and write</strong> on the repositories you review, or a
+      <a href="https://github.com/settings/tokens/new?scopes=repo&amp;description=Spec%20Focus" target="_blank"
+        >classic token</a
+      >
+      with the <code>repo</code> scope.
+    </p>
+    <p>It's kept in this browser's extension storage and only sent to api.github.com.</p>
+    <form id="form">
+      <label for="token">GitHub token</label>
+      <input id="token" type="password" autocomplete="off" spellcheck="false" placeholder="github_pat_…" />
+      <div class="row">
+        <button type="submit">Save</button>
+        <span id="status" role="status"></span>
+      </div>
+    </form>
+    <script src="options.js"></script>
+  </body>
+</html>

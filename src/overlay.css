@@ -17,7 +17,7 @@ html.sf-open {
   inset: 0;
   z-index: 2147483646;
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
   background: var(--sf-bg);
   color: var(--sf-fg);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
@@ -125,6 +125,118 @@ html.sf-open {
 #spec-focus-root .sf-chunk del {
   background: var(--bgColor-danger-muted, rgb(248 81 73 / 0.1));
   text-decoration: line-through;
+}
+
+#spec-focus-root .sf-commented {
+  color: var(--sf-muted);
+}
+
+/* The comment box sits under the chunk it's about, so both stay in view. */
+#spec-focus-root .sf-composer {
+  display: grid;
+  gap: 10px;
+  width: min(calc(var(--sf-font-size) * 38), calc(100% - 48px));
+  margin: 0 auto 20px;
+  padding: 14px 16px;
+  border: 1px solid var(--sf-border);
+  border-radius: 10px;
+  background: var(--bgColor-muted, #151b23);
+  font-size: 14px;
+}
+
+#spec-focus-root .sf-composer[hidden] {
+  display: none;
+}
+
+#spec-focus-root .sf-composer-where {
+  color: var(--sf-muted);
+}
+
+#spec-focus-root .sf-composer-where code,
+#spec-focus-root .sf-composer-lines {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+}
+
+#spec-focus-root .sf-composer-where code {
+  color: var(--sf-fg);
+}
+
+#spec-focus-root .sf-composer-lines {
+  max-height: 9em;
+  margin: 0;
+  padding: 8px 10px;
+  overflow: auto;
+  border-radius: 6px;
+  background: var(--bgColor-inset, #010409);
+  color: var(--sf-muted);
+  white-space: pre-wrap;
+  scrollbar-width: thin;
+}
+
+#spec-focus-root .sf-composer-lines[hidden] {
+  display: none;
+}
+
+#spec-focus-root .sf-composer textarea {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 5.5em;
+  padding: 8px 10px;
+  border: 1px solid var(--sf-border);
+  border-radius: 6px;
+  background: var(--sf-bg);
+  color: var(--sf-fg);
+  font: inherit;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+#spec-focus-root .sf-composer textarea:focus {
+  border-color: var(--sf-accent);
+  outline: none;
+}
+
+#spec-focus-root .sf-composer-foot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#spec-focus-root .sf-composer-note {
+  flex: 1;
+  color: var(--sf-muted);
+}
+
+#spec-focus-root .sf-button {
+  padding: 5px 12px;
+  border: 1px solid var(--sf-border);
+  border-radius: 6px;
+  background: var(--button-default-bgColor-rest, #212830);
+  color: var(--sf-fg);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+#spec-focus-root .sf-button-primary {
+  border-color: transparent;
+  background: var(--button-primary-bgColor-rest, #238636);
+  color: var(--button-primary-fgColor-rest, #fff);
+}
+
+#spec-focus-root .sf-button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+#spec-focus-root .sf-link {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--sf-accent);
+  font: inherit;
+  cursor: pointer;
 }
 
 /* Neighbouring chunks: fixed-height slots so the current chunk never jumps,
@@ -269,6 +381,12 @@ html.sf-open {
   transition:
     opacity 0.2s,
     transform 0.2s;
+}
+
+/* Out of the way of the comment box's buttons. */
+#spec-focus-root:has(.sf-composer:not([hidden])) .sf-toast {
+  top: 64px;
+  bottom: auto;
 }
 
 .sf-toast.sf-visible {
